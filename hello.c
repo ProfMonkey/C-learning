@@ -2,8 +2,9 @@
 
 int main(void)
 {
-    printf("Hello WSL!\n");
+    int number = 200;
+
+    printf("number = %d\n", number);
 
     return 0;
 }
-
