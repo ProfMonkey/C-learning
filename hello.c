@@ -2,7 +2,7 @@
 
 int main(void)
 {
-    printf("Hello Linux!\n");
+    printf("Hello WSL!\n");
 
     return 0;
 }
