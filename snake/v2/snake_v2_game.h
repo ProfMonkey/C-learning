@@ -1,15 +1,40 @@
-#ifndef SNAKE_V2_GAME_H
-#define SNAKE_V2_GAME_H
+#ifndef SNAKE_GAME_H
+#define SNAKE_GAME_H
 
 #define MAX_WIDTH 100
 #define MAX_HEIGHT 40
 #define MAX_SNAKE 4000
+
 
 extern int snake_length;
 extern int head_index;
 
 extern int snake_x[MAX_SNAKE];
 extern int snake_y[MAX_SNAKE];
+
+void get_left_direction(
+    int dx,
+    int dy,
+    int *new_dx,
+    int *new_dy
+);
+
+void get_right_direction(
+    int dx,
+    int dy,
+    int *new_dx,
+    int *new_dy
+);
+
+int choose_rule_bot_direction(
+    int *dx,
+    int *dy,
+    int food_x,
+    int food_y,
+    int width,
+    int height
+);
+
 
 int is_snake_position(
     int x,

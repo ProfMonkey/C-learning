@@ -7,6 +7,7 @@
 
 #include "snake_v2_game.h"
 
+
 int main(void)
 {
     char board[MAX_HEIGHT][MAX_WIDTH];
@@ -14,19 +15,47 @@ int main(void)
     int width;
     int height;
 
+    int mode;
+
+
+    printf("1. Human\n");
+    printf("2. Rule Bot\n");
+    printf("Choose mode: ");
+
+    scanf("%d", &mode);
+
+
+    if (
+        mode != 1 &&
+        mode != 2
+    )
+    {
+        printf("Invalid mode.\n");
+        return 1;
+    }
+
+
     printf(
         "Enter width (20-%d): ",
         MAX_WIDTH
     );
 
-    scanf("%d", &width);
+    scanf(
+        "%d",
+        &width
+    );
+
 
     printf(
         "Enter height (10-%d): ",
         MAX_HEIGHT
     );
 
-    scanf("%d", &height);
+    scanf(
+        "%d",
+        &height
+    );
+
 
     if (
         width < 20 ||
@@ -39,7 +68,11 @@ int main(void)
         return 1;
     }
 
-    srand((unsigned int)time(NULL));
+
+    srand(
+        (unsigned int)time(NULL)
+    );
+
 
     for (int y = 0; y < height; y++)
     {
@@ -49,20 +82,35 @@ int main(void)
         }
     }
 
+
     for (int x = 0; x < width; x++)
     {
         board[0][x] = '#';
-        board[height - 1][x] = '#';
+
+        board
+            [height - 1]
+            [x]
+            = '#';
     }
+
 
     for (int y = 0; y < height; y++)
     {
         board[y][0] = '#';
-        board[y][width - 1] = '#';
+
+        board
+            [y]
+            [width - 1]
+            = '#';
     }
 
-    snake_x[0] = width / 2;
-    snake_y[0] = height / 2;
+
+    snake_x[0] =
+        width / 2;
+
+    snake_y[0] =
+        height / 2;
+
 
     for (int i = 1; i < snake_length; i++)
     {
@@ -72,6 +120,7 @@ int main(void)
         snake_y[i] =
             snake_y[0];
     }
+
 
     for (int i = 0; i < snake_length; i++)
     {
@@ -91,8 +140,10 @@ int main(void)
         }
     }
 
+
     int food_x;
     int food_y;
+
 
     do
     {
@@ -109,25 +160,53 @@ int main(void)
         )
     );
 
-    board[food_y][food_x] = '*';
+
+    board
+        [food_y]
+        [food_x]
+        = '*';
+
 
     int dx = 0;
     int dy = 0;
 
+
+    if (mode == 2)
+    {
+        dx = 1;
+        dy = 0;
+    }
+
+
     int step = 0;
     int score = 0;
 
+
     FILE *debug_file =
-        fopen("debug.txt", "w");
+        fopen(
+            "debug.txt",
+            "w"
+        );
+
 
     if (debug_file == NULL)
     {
-        printf("debug.txt open failed\n");
+        printf(
+            "debug.txt open failed\n"
+        );
+
         return 1;
     }
 
-    printf("\x1b[2J\x1b[H");
-    printf("\x1b[?25l");
+
+    printf(
+        "\x1b[2J\x1b[H"
+    );
+
+    printf(
+        "\x1b[?25l"
+    );
+
 
     print_board(
         board,
@@ -136,22 +215,47 @@ int main(void)
         score
     );
 
+
     while (1)
     {
-        int input_result =
-            get_human_direction(
-                &dx,
-                &dy
-            );
+        int input_result = 1;
+
+
+        if (mode == 1)
+        {
+            input_result =
+                get_human_direction(
+                    &dx,
+                    &dy
+                );
+        }
+        else
+{
+    input_result =
+        choose_rule_bot_direction(
+            &dx,
+            &dy,
+            food_x,
+            food_y,
+            width,
+            height
+        );
+
+    Sleep(120);
+}
+
 
         if (input_result == -1)
         {
             break;
         }
-        else if (input_result == 0)
+
+
+        if (input_result == 0)
         {
             continue;
         }
+
 
         int old_head_x =
             snake_x[head_index];
@@ -159,11 +263,13 @@ int main(void)
         int old_head_y =
             snake_y[head_index];
 
+
         int new_head_x =
             old_head_x + dx;
 
         int new_head_y =
             old_head_y + dy;
+
 
         if (
             is_safe_move(
@@ -179,6 +285,7 @@ int main(void)
             break;
         }
 
+
         move_one_step(
             board,
             width,
@@ -190,6 +297,7 @@ int main(void)
             &score
         );
 
+
         int new_tail_index =
             (
                 head_index +
@@ -197,6 +305,7 @@ int main(void)
                 1
             )
             % MAX_SNAKE;
+
 
         fprintf(
             debug_file,
@@ -212,7 +321,11 @@ int main(void)
             score
         );
 
-        fflush(debug_file);
+
+        fflush(
+            debug_file
+        );
+
 
         print_board(
             board,
@@ -221,15 +334,30 @@ int main(void)
             score
         );
 
+
         step++;
     }
 
-    fclose(debug_file);
 
-    printf("\x1b[?25h");
+    fclose(
+        debug_file
+    );
 
-    printf("\nGame over.\n");
-    printf("Final score: %d\n", score);
+
+    printf(
+        "\x1b[?25h"
+    );
+
+
+    printf(
+        "\nGame over.\n"
+    );
+
+    printf(
+        "Final score: %d\n",
+        score
+    );
+
 
     return 0;
 }

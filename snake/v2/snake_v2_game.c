@@ -10,6 +10,131 @@ int head_index = 0;
 int snake_x[MAX_SNAKE];
 int snake_y[MAX_SNAKE];
 
+int choose_rule_bot_direction(
+    int *dx,
+    int *dy,
+    int food_x,
+    int food_y,
+    int width,
+    int height
+)
+{
+    int forward_dx = *dx;
+    int forward_dy = *dy;
+
+    int left_dx;
+    int left_dy;
+
+    int right_dx;
+    int right_dy;
+
+    get_left_direction(*dx,*dy,&left_dx,&left_dy);
+    get_right_direction(*dx,*dy,&right_dx,&right_dy);
+
+    int head_x =
+    snake_x[head_index];
+
+    int head_y =
+    snake_y[head_index];
+
+    int forward_x =
+    head_x + forward_dx;
+
+    int forward_y =
+    head_y + forward_dy;
+
+    int left_x =
+    head_x + left_dx;
+
+    int left_y =
+    head_y + left_dy;
+
+    int right_x =
+    head_x + right_dx;
+
+    int right_y =
+    head_y + right_dy;
+
+    int forward_safe;
+    int left_safe;
+    int right_safe;
+
+    forward_safe =
+    is_safe_move(
+        forward_x,
+        forward_y,
+        food_x,
+        food_y,
+        width,
+        height
+    );
+
+    left_safe =
+    is_safe_move(
+        left_x,
+        left_y,
+        food_x,
+        food_y,
+        width,
+        height
+    );
+
+    right_safe =
+    is_safe_move(
+        right_x,
+        right_y,
+        food_x,
+        food_y,
+        width,
+        height
+    );
+
+    if (forward_safe == 1)
+    {
+        *dx = forward_dx;
+        *dy = forward_dy;
+        return 1;
+    }
+    else if (left_safe == 1)
+    {
+        *dx = left_dx;
+        *dy = left_dy;
+        return 1;
+    }
+    else if (right_safe == 1)
+    {
+        *dx = right_dx;
+        *dy = right_dy;
+        return 1;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+void get_left_direction(
+    int dx,
+    int dy,
+    int *new_dx,
+    int *new_dy
+)
+{
+    *new_dx = dy;
+    *new_dy = -dx;
+}
+
+void get_right_direction(
+    int dx,
+    int dy,
+    int *new_dx,
+    int *new_dy
+)
+{
+    *new_dx = -dy;
+    *new_dy = dx;
+}
+
 int is_snake_position(int x, int y)
 {
     for (int i = 0; i < snake_length; i++)
@@ -46,6 +171,7 @@ int get_human_direction(
             *dy = -1;
             return 1;
         }
+
         return 0;
 
     case 's':
@@ -56,6 +182,7 @@ int get_human_direction(
             *dy = 1;
             return 1;
         }
+
         return 0;
 
     case 'a':
@@ -66,6 +193,7 @@ int get_human_direction(
             *dy = 0;
             return 1;
         }
+
         return 0;
 
     case 'd':
@@ -76,6 +204,7 @@ int get_human_direction(
             *dy = 0;
             return 1;
         }
+
         return 0;
 
     case 'q':
@@ -86,6 +215,7 @@ int get_human_direction(
         return 0;
     }
 }
+
 
 int is_safe_move(
     int new_head_x,
@@ -121,10 +251,8 @@ int is_safe_move(
         % MAX_SNAKE;
 
     if (
-        new_head_x ==
-            snake_x[tail_index] &&
-        new_head_y ==
-            snake_y[tail_index] &&
+        new_head_x == snake_x[tail_index] &&
+        new_head_y == snake_y[tail_index] &&
         ate_food == 0
     )
     {
@@ -143,6 +271,7 @@ int is_safe_move(
 
     return 1;
 }
+
 
 void move_one_step(
     char board[MAX_HEIGHT][MAX_WIDTH],
@@ -228,9 +357,13 @@ void move_one_step(
             )
         );
 
-        board[*food_y][*food_x] = '*';
+        board
+            [*food_y]
+            [*food_x]
+            = '*';
     }
 }
+
 
 void print_board(
     char board[MAX_HEIGHT][MAX_WIDTH],
@@ -245,14 +378,24 @@ void print_board(
     {
         for (int x = 0; x < width; x++)
         {
-            printf("%c", board[y][x]);
+            printf(
+                "%c",
+                board[y][x]
+            );
         }
 
         printf("\n");
     }
 
-    printf("\nWASD move, Q quit\n");
-    printf("Score: %d\n", score);
+    printf(
+        "\nWASD move, Q quit\n"
+    );
+
+    printf(
+        "Score: %d\n",
+        score
+    );
 
     fflush(stdout);
 }
+
