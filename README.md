@@ -85,6 +85,7 @@ C-learning/
 ├─ archive/
 │  └─ v2_early/               # Preserved earlier V2 snapshot
 │
+├─ .vscode/
 ├─ .gitignore
 └─ README.md
 ```
@@ -93,16 +94,40 @@ The `archive/` folder keeps older code snapshots that are still useful for compa
 
 ---
 
-## 🛠 Build
+## 🛠 Development Environment
 
-The Snake project is currently developed on Windows with GCC.
+The current Snake versions are developed and tested primarily on **Windows**.
+
+They currently use Windows-specific APIs such as:
+
+- `windows.h`
+- `conio.h`
+- `Sleep()`
+
+So the current source code is **not intended to compile unchanged on Linux**.
+
+The focus right now is learning C, program structure and game AI. Cross-platform support can be added later when the project reaches a more mature stage.
+
+### Current toolchain
+
+```text
+OS: Windows
+Editor: VS Code
+Language: C
+Compiler: GCC
+Terminal: PowerShell
+```
+
+---
+
+## ▶️ Build & Run
 
 ### V1
 
 ```powershell
 cd v1
 gcc snake_v1.c -o snake_v1.exe
-.\\snake_v1.exe
+.\snake_v1.exe
 ```
 
 ### V2
@@ -110,7 +135,7 @@ gcc snake_v1.c -o snake_v1.exe
 ```powershell
 cd v2
 gcc snake_v2.c snake_v2_game.c -o snake_v2.exe
-.\\snake_v2.exe
+.\snake_v2.exe
 ```
 
 ### V3
@@ -118,7 +143,7 @@ gcc snake_v2.c snake_v2_game.c -o snake_v2.exe
 ```powershell
 cd v3
 gcc snake_v3.c snake_v3_game.c -o snake_v3.exe
-.\\snake_v3.exe
+.\snake_v3.exe
 ```
 
 ---
@@ -154,6 +179,7 @@ Reinforcement learning
 - [ ] Save / load the trained Q-table
 - [ ] Compare V2 and V3 performance
 - [ ] Experiment with a small neural-network version
+- [ ] Add cross-platform support later
 
 ---
 
