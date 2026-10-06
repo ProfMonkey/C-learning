@@ -14,10 +14,9 @@
 
 ## 🚀 About This Repository
 
-This repository records my C programming learning journey.
+This repository records my C programming learning journey through progressively larger projects.
 
-Instead of only doing isolated exercises, I am building projects step by step and continuously upgrading them.
-The current main project is a **Snake game series**, evolving from manual control to rule-based AI and then toward reinforcement learning.
+The main project is a **Snake AI series**, evolving from manual control to rule-based decision making and then reinforcement learning.
 
 ---
 
@@ -25,35 +24,20 @@ The current main project is a **Snake game series**, evolving from manual contro
 
 | Version | Stage | Main Idea | Status |
 |---|---|---|---|
-| **V1** | Manual Snake | Player control, movement, food, growth, collision and score | ✅ Complete |
+| **V1** | Manual Snake | Player control, food, growth, collision and scoring | ✅ Complete |
 | **V2** | Rule-Based Bot | Safety checks, food distance and visit penalties | ✅ Complete |
-| **V3** | Q-Learning Snake | Convert the game into a trainable environment and learn actions | 🚧 In Progress |
-| **V4** | Neural Network | Use a small neural network to choose actions | 🧭 Planned |
+| **V3** | Q-Learning Snake | Turn the game into a trainable environment | 🚧 In Progress |
+| **V4** | Neural Network | Learn actions with a small neural network | 🧭 Planned |
 
 ### V1 — Manual Snake
 
-The first complete playable version.
+The first complete playable version, using a circular-array design for the snake body.
 
-Main concepts practiced:
-
-- Arrays
-- Functions
-- Keyboard input
-- Collision detection
-- Game loop
-- Circular-array snake body management
-
-📁 [`snake/`](./snake)
+📁 [`v1/`](./v1)
 
 ### V2 — Rule-Based Bot
 
-The snake can play automatically using hand-written rules.
-
-The bot evaluates:
-
-- whether moving forward / left / right is safe
-- Manhattan distance to food
-- how often a position has been visited
+The bot evaluates forward / left / right moves using safety, food distance and visit history.
 
 📁 [`v2/`](./v2)
 
@@ -61,39 +45,16 @@ The bot evaluates:
 
 V3 starts from the stable V2 game and gradually turns it into a reinforcement-learning environment.
 
-Planned pipeline:
-
 ```text
-State
-  ↓
-Choose Action
-  ↓
-Game Step
-  ↓
-Reward
-  ↓
-Update Q Table
-  ↓
-Next State
+State → Choose Action → Game Step → Reward → Update Q Table → Next State
 ```
 
-The first state representation will use:
+Planned first state representation:
 
-- danger ahead
-- danger left
-- danger right
-- food ahead
-- food behind
-- food left
-- food right
-
-That gives **2^7 = 128 states** and **3 actions**:
-
-```text
-STRAIGHT
-LEFT
-RIGHT
-```
+- danger ahead / left / right
+- food ahead / behind / left / right
+- 128 states
+- 3 actions: STRAIGHT / LEFT / RIGHT
 
 📁 [`v3/`](./v3)
 
@@ -103,14 +64,32 @@ RIGHT
 
 ```text
 C-learning/
-├─ hello.c
-├─ 2p.c
-├─ students.txt
-├─ snake/              # V1 manual Snake
-├─ v2/                 # Rule-based Snake bot
-├─ v3/                 # Q-learning version in progress
+├─ basics/                    # Early C exercises
+│  ├─ hello.c
+│  ├─ student_report.c
+│  └─ students.txt
+│
+├─ v1/                        # Manual Snake
+│  └─ snake_v1.c
+│
+├─ v2/                        # Rule-based Snake bot
+│  ├─ snake_v2.c
+│  ├─ snake_v2_game.c
+│  └─ snake_v2_game.h
+│
+├─ v3/                        # Q-learning version in progress
+│  ├─ snake_v3.c
+│  ├─ snake_v3_game.c
+│  └─ snake_v3_game.h
+│
+├─ archive/
+│  └─ v2_early/               # Preserved earlier V2 snapshot
+│
+├─ .gitignore
 └─ README.md
 ```
+
+The `archive/` folder keeps older code snapshots that are still useful for comparing how the project evolved.
 
 ---
 
@@ -118,7 +97,23 @@ C-learning/
 
 The Snake project is currently developed on Windows with GCC.
 
-For V3:
+### V1
+
+```powershell
+cd v1
+gcc snake_v1.c -o snake_v1.exe
+.\\snake_v1.exe
+```
+
+### V2
+
+```powershell
+cd v2
+gcc snake_v2.c snake_v2_game.c -o snake_v2.exe
+.\\snake_v2.exe
+```
+
+### V3
 
 ```powershell
 cd v3
@@ -143,8 +138,6 @@ Game AI
    ↓
 Reinforcement learning
 ```
-
-The goal is not just to make programs work, but to gradually improve **code structure, debugging ability, algorithmic thinking, and engineering habits**.
 
 ---
 
