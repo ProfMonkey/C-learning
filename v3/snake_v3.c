@@ -9,6 +9,7 @@
 int main(void)
 {
     char board[MAX_HEIGHT][MAX_WIDTH];
+
     int width, height;
 
     printf("Enter width (20-%d): ", MAX_WIDTH);
@@ -26,54 +27,6 @@ int main(void)
 
     srand((unsigned int)time(NULL));
 
-    for (int y = 0; y < height; y++)
-        for (int x = 0; x < width; x++)
-            board[y][x] = ' ';
-
-    for (int x = 0; x < width; x++)
-    {
-        board[0][x] = '#';
-        board[height - 1][x] = '#';
-    }
-
-    for (int y = 0; y < height; y++)
-    {
-        board[y][0] = '#';
-        board[y][width - 1] = '#';
-    }
-
-    snake_x[0] = width / 2;
-    snake_y[0] = height / 2;
-
-    for (int i = 1; i < snake_length; i++)
-    {
-        snake_x[i] = snake_x[0] - i;
-        snake_y[i] = snake_y[0];
-    }
-
-    for (int i = 0; i < snake_length; i++)
-    {
-        if (i == 0)
-            board[snake_y[i]][snake_x[i]] = '@';
-        else
-            board[snake_y[i]][snake_x[i]] = '#';
-    }
-
-    int food_x, food_y;
-
-    do
-    {
-        food_x = rand() % (width - 2) + 1;
-        food_y = rand() % (height - 2) + 1;
-    }
-    while (is_snake_position(food_x, food_y));
-
-    board[food_y][food_x] = '*';
-
-    int dx = 1, dy = 0;
-    int step = 0;
-    int score = 0;
-
     FILE *debug_file = fopen("debug.txt", "w");
 
     if (debug_file == NULL)
@@ -85,70 +38,161 @@ int main(void)
     printf("\x1b[2J\x1b[H");
     printf("\x1b[?25l");
 
-    print_board(board, width, height, score);
+    int food_x, food_y;
+    int dx, dy;
+    int score;
+    int step;
 
-    while (1)
+    for (int episode = 0; episode < 10000; episode++)
     {
-        int action = ACTION_STRAIGHT;
-        int new_dx, new_dy;
+        step = 0;
 
-        action_to_direction(
-            action,
-            dx, dy,
-            &new_dx, &new_dy
+        reset_game(
+            board,
+            width,
+            height,
+            &food_x,
+            &food_y,
+            &dx,
+            &dy,
+            &score
         );
 
-        dx = new_dx;
-        dy = new_dy;
-
-        int old_head_x = snake_x[head_index];
-        int old_head_y = snake_y[head_index];
-
-        int new_head_x = old_head_x + dx;
-        int new_head_y = old_head_y + dy;
-
-        if (is_safe_move(
-            new_head_x, new_head_y,
+        int state = get_state(
+            dx, dy,
             food_x, food_y,
             width, height
-        ) == 0)
-        {
-            break;
-        }
-
-        move_one_step(
-            board, width, height,
-            new_head_x, new_head_y,
-            &food_x, &food_y, &score
         );
 
-        int new_tail_index =
-            (head_index + snake_length - 1) % MAX_SNAKE;
-
-        fprintf(
-            debug_file,
-            "step=%d head=%d tail=%d head_pos=(%d,%d) direction=(%d,%d) length=%d score=%d\n",
-            step,
-            head_index,
-            new_tail_index,
-            snake_x[head_index],
-            snake_y[head_index],
-            dx, dy,
-            snake_length,
+        print_board(
+            board,
+            width,
+            height,
             score
         );
 
-        fflush(debug_file);
-        print_board(board, width, height, score);
+        while (1)
+        {
+            int action = choose_action(state, 0.1);
 
-        step++;
+            int new_dx;
+            int new_dy;
+
+            action_to_direction(
+                action,
+                dx, dy,
+                &new_dx, &new_dy
+            );
+
+            dx = new_dx;
+            dy = new_dy;
+
+            int old_head_x = snake_x[head_index];
+            int old_head_y = snake_y[head_index];
+
+            int new_head_x = old_head_x + dx;
+            int new_head_y = old_head_y + dy;
+
+            int ate_food =
+                new_head_x == food_x &&
+                new_head_y == food_y;
+
+            if (is_safe_move(
+                new_head_x,
+                new_head_y,
+                food_x,
+                food_y,
+                width,
+                height
+            ) == 0)
+            {
+                double reward = calculate_reward(
+                    1,
+                    0
+                );
+
+                update_q_value(
+                    state,
+                    action,
+                    reward,
+                    0,
+                    1
+                );
+
+                break;
+            }
+
+            move_one_step(
+                board,
+                width,
+                height,
+                new_head_x,
+                new_head_y,
+                &food_x,
+                &food_y,
+                &score
+            );
+
+            double reward = calculate_reward(
+                0,
+                ate_food
+            );
+
+            int new_state = get_state(
+                dx, dy,
+                food_x, food_y,
+                width, height
+            );
+
+            update_q_value(
+                state,
+                action,
+                reward,
+                new_state,
+                0
+            );
+
+            state = new_state;
+
+            int new_tail_index =
+                (head_index + snake_length - 1)
+                % MAX_SNAKE;
+
+            fprintf(
+                debug_file,
+                "episode=%d step=%d state=%d head=%d tail=%d "
+                "head_pos=(%d,%d) direction=(%d,%d) "
+                "length=%d score=%d\n",
+                episode + 1,
+                step,
+                state,
+                head_index,
+                new_tail_index,
+                snake_x[head_index],
+                snake_y[head_index],
+                dx,
+                dy,
+                snake_length,
+                score
+            );
+
+            fflush(debug_file);
+
+            print_board(
+                board,
+                width,
+                height,
+                score
+            );
+
+            step++;
+        }
     }
 
     fclose(debug_file);
 
     printf("\x1b[?25h");
-    printf("\nGame over.\n");
-    printf("Final score: %d\n", score);
+    printf("\nTraining finished.\n");
 
     return 0;
 }
