@@ -9,7 +9,6 @@ int head_index = 0;
 
 int snake_x[MAX_SNAKE];
 int snake_y[MAX_SNAKE];
-int visit_count[MAX_HEIGHT][MAX_WIDTH] = { 0 };
 
 
 void action_to_direction(
@@ -51,122 +50,6 @@ void get_right_direction(
 {
     *new_dx = -dy;
     *new_dy = dx;
-}
-
-
-int choose_rule_bot_direction(
-    int *dx, int *dy,
-    int food_x, int food_y,
-    int width, int height
-)
-{
-    int forward_dx = *dx;
-    int forward_dy = *dy;
-
-    int left_dx, left_dy;
-    int right_dx, right_dy;
-
-    get_left_direction(*dx, *dy, &left_dx, &left_dy);
-    get_right_direction(*dx, *dy, &right_dx, &right_dy);
-
-    int head_x = snake_x[head_index];
-    int head_y = snake_y[head_index];
-
-    int forward_x = head_x + forward_dx;
-    int forward_y = head_y + forward_dy;
-
-    int left_x = head_x + left_dx;
-    int left_y = head_y + left_dy;
-
-    int right_x = head_x + right_dx;
-    int right_y = head_y + right_dy;
-
-    int forward_safe = is_safe_move(
-        forward_x, forward_y,
-        food_x, food_y,
-        width, height
-    );
-
-    int left_safe = is_safe_move(
-        left_x, left_y,
-        food_x, food_y,
-        width, height
-    );
-
-    int right_safe = is_safe_move(
-        right_x, right_y,
-        food_x, food_y,
-        width, height
-    );
-
-    int best_score = 100000;
-    int best_dx = 0, best_dy = 0;
-    int found_move = 0;
-
-    if (forward_safe)
-    {
-        int distance =
-            abs(food_x - forward_x) +
-            abs(food_y - forward_y);
-
-        int score =
-            distance +
-            visit_count[forward_y][forward_x] * 5;
-
-        if (score < best_score)
-        {
-            best_score = score;
-            best_dx = forward_dx;
-            best_dy = forward_dy;
-            found_move = 1;
-        }
-    }
-
-    if (left_safe)
-    {
-        int distance =
-            abs(food_x - left_x) +
-            abs(food_y - left_y);
-
-        int score =
-            distance +
-            visit_count[left_y][left_x] * 2;
-
-        if (score < best_score)
-        {
-            best_score = score;
-            best_dx = left_dx;
-            best_dy = left_dy;
-            found_move = 1;
-        }
-    }
-
-    if (right_safe)
-    {
-        int distance =
-            abs(food_x - right_x) +
-            abs(food_y - right_y);
-
-        int score =
-            distance +
-            visit_count[right_y][right_x] * 5;
-
-        if (score < best_score)
-        {
-            best_score = score;
-            best_dx = right_dx;
-            best_dy = right_dy;
-            found_move = 1;
-        }
-    }
-
-    if (found_move == 0)
-        return -1;
-
-    *dx = best_dx;
-    *dy = best_dy;
-
-    return 1;
 }
 
 
@@ -304,8 +187,6 @@ void move_one_step(
 
     snake_x[head_index] = new_head_x;
     snake_y[head_index] = new_head_y;
-
-    visit_count[new_head_y][new_head_x]++;
 
     board[old_head_y][old_head_x] = '#';
     board[new_head_y][new_head_x] = '@';

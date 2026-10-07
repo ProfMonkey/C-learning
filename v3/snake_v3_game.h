@@ -34,12 +34,6 @@ void get_right_direction(
     int *new_dx, int *new_dy
 );
 
-int choose_rule_bot_direction(
-    int *dx, int *dy,
-    int food_x, int food_y,
-    int width, int height
-);
-
 int is_snake_position(int x, int y);
 
 int get_human_direction(int *dx, int *dy);

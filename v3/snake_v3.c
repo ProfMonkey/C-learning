@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 #include <time.h>
 
 #include "snake_v3_game.h"
@@ -10,18 +9,7 @@
 int main(void)
 {
     char board[MAX_HEIGHT][MAX_WIDTH];
-    int width, height, mode;
-
-    printf("1. Human\n");
-    printf("2. Rule Bot\n");
-    printf("Choose mode: ");
-    scanf("%d", &mode);
-
-    if (mode != 1 && mode != 2)
-    {
-        printf("Invalid mode.\n");
-        return 1;
-    }
+    int width, height;
 
     printf("Enter width (20-%d): ", MAX_WIDTH);
     scanf("%d", &width);
@@ -84,12 +72,6 @@ int main(void)
 
     int dx = 0, dy = 0;
 
-    if (mode == 2)
-    {
-        dx = 1;
-        dy = 0;
-    }
-
     int step = 0;
     int score = 0;
 
@@ -108,22 +90,7 @@ int main(void)
 
     while (1)
     {
-        int input_result = 1;
-
-        if (mode == 1)
-        {
-            input_result = get_human_direction(&dx, &dy);
-        }
-        else
-        {
-            input_result = choose_rule_bot_direction(
-                &dx, &dy,
-                food_x, food_y,
-                width, height
-            );
-
-            Sleep(120);
-        }
+        int input_result = get_human_direction(&dx, &dy);
 
         if (input_result == -1)
             break;

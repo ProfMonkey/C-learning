@@ -43,7 +43,9 @@ The bot evaluates forward / left / right moves using safety, food distance and v
 
 ### V3 — Q-Learning
 
-V3 starts from the stable V2 game and gradually turns it into a reinforcement-learning environment.
+V3 starts from the stable V2 game and gradually turns it into a reinforcement-learning environment. Its current executable uses manual control while the Q-learning pieces are built step by step; the rule-based bot remains in V2.
+
+Implemented so far: the three-action enum and action-to-direction conversion. State encoding and the Q-table are next.
 
 ```text
 State → Choose Action → Game Step → Reward → Update Q Table → Next State
