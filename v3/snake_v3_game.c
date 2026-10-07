@@ -12,6 +12,28 @@ int snake_y[MAX_SNAKE];
 int visit_count[MAX_HEIGHT][MAX_WIDTH] = { 0 };
 
 
+void action_to_direction(
+    int action,
+    int old_dx, int old_dy,
+    int *new_dx, int *new_dy
+)
+{
+    if (action == ACTION_STRAIGHT)
+    {
+        *new_dx = old_dx;
+        *new_dy = old_dy;
+    }
+    else if (action == ACTION_LEFT)
+    {
+        get_left_direction(old_dx, old_dy, new_dx, new_dy);
+    }
+    else if (action == ACTION_RIGHT)
+    {
+        get_right_direction(old_dx, old_dy, new_dx, new_dy);
+    }
+}
+
+
 void get_left_direction(
     int dx, int dy,
     int *new_dx, int *new_dy
