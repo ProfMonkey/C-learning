@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 
 #include "snake_v3_game.h"
 
@@ -67,62 +66,6 @@ int is_snake_position(int x, int y)
     }
 
     return 0;
-}
-
-
-int get_human_direction(int *dx, int *dy)
-{
-    char key = _getch();
-
-    switch (key)
-    {
-    case 'w':
-    case 'W':
-        if (*dy != 1)
-        {
-            *dx = 0;
-            *dy = -1;
-            return 1;
-        }
-        return 0;
-
-    case 's':
-    case 'S':
-        if (*dy != -1)
-        {
-            *dx = 0;
-            *dy = 1;
-            return 1;
-        }
-        return 0;
-
-    case 'a':
-    case 'A':
-        if (*dx != 1)
-        {
-            *dx = -1;
-            *dy = 0;
-            return 1;
-        }
-        return 0;
-
-    case 'd':
-    case 'D':
-        if (*dx != -1)
-        {
-            *dx = 1;
-            *dy = 0;
-            return 1;
-        }
-        return 0;
-
-    case 'q':
-    case 'Q':
-        return -1;
-
-    default:
-        return 0;
-    }
 }
 
 
@@ -224,8 +167,7 @@ void print_board(
         printf("\n");
     }
 
-    printf("\nWASD move, Q quit\n");
-    printf("Score: %d\n", score);
+    printf("\nScore: %d\n", score);
 
     fflush(stdout);
 }
