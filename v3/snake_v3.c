@@ -70,8 +70,7 @@ int main(void)
 
     board[food_y][food_x] = '*';
 
-    int dx = 0, dy = 0;
-
+    int dx = 1, dy = 0;
     int step = 0;
     int score = 0;
 
@@ -90,13 +89,17 @@ int main(void)
 
     while (1)
     {
-        int input_result = get_human_direction(&dx, &dy);
+        int action = ACTION_STRAIGHT;
+        int new_dx, new_dy;
 
-        if (input_result == -1)
-            break;
+        action_to_direction(
+            action,
+            dx, dy,
+            &new_dx, &new_dy
+        );
 
-        if (input_result == 0)
-            continue;
+        dx = new_dx;
+        dy = new_dy;
 
         int old_head_x = snake_x[head_index];
         int old_head_y = snake_y[head_index];
