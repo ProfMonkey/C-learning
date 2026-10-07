@@ -36,8 +36,6 @@ void get_right_direction(
 
 int is_snake_position(int x, int y);
 
-int get_human_direction(int *dx, int *dy);
-
 int is_safe_move(
     int new_head_x, int new_head_y,
     int food_x, int food_y,
