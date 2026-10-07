@@ -11,6 +11,19 @@ extern int head_index;
 extern int snake_x[MAX_SNAKE];
 extern int snake_y[MAX_SNAKE];
 
+enum Action
+{
+    ACTION_STRAIGHT,
+    ACTION_LEFT,
+    ACTION_RIGHT
+};
+
+void action_to_direction(
+    int action,
+    int old_dx, int old_dy,
+    int *new_dx, int *new_dy
+);
+
 void get_left_direction(
     int dx, int dy,
     int *new_dx, int *new_dy
