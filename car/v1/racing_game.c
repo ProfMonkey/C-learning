@@ -44,19 +44,17 @@ void draw_track(void)
         printf("\n");
     }
 
-    void move_car(void)
+}
+
+ void move_car(int key)
     {
         int key = _getch();
         if((key == 'a' || key == 'A')&&car_x > 1)
         {
             car_x--;
-            board[HEIGHT - 2][car_x] = 'A';
         }
         if((key == 'd' || key == 'D')&&car_x < WIDTH - 2)
         {
             car_x++;
-            board[HEIGHT - 2][car_x] = 'A';
         }
     }
-
-}

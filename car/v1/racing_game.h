@@ -8,6 +8,6 @@ void init_game(void);
 
 void draw_track(void);
 
-void move_car(void);
+void move_car(int key);
 
 # endif
