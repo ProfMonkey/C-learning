@@ -1,6 +1,11 @@
 # ifndef RACING_GAME_H
 # define RACING_GAME_H
 
+#define WIDTH 30
+#define HEIGHT 10
+
 void init_game(void);
+
+void draw_track(void);
 
 # endif
