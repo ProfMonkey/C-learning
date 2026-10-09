@@ -53,15 +53,15 @@ int main(void)
                 frame++;
 
                 int a = 4;
-                switch (get_score())
+                switch (get_score()/10)
                 {
-                    case 0  9:
+                    case 0 :
                         a = 4;
                         break;
-                    case 10  19:
+                    case 1:
                         a = 3;
                         break;
-                    case 20  29:
+                    case 2:
                         a = 2;
                         break;
                     default:
@@ -75,7 +75,14 @@ int main(void)
                     update_obstacles();
                 }
 
-                if (frame % 20 == 0)
+                int spawn_interval = a * 5;
+
+if (frame % spawn_interval == 0)
+{
+    spawn_obstacle();
+}
+
+                if (frame % spawn_interval == 0)
                 {
                     spawn_obstacle();
                 }
