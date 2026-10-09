@@ -2,12 +2,12 @@
 # include "racing_game.h"
 
 static int car_x;
+static int road_offset = 0;
 
 void init_game(void)
 {
     car_x = WIDTH / 2;
-
-    printf("Game initialized!\n");
+    road_offset = 0;
 }
 
 void draw_track(void)
@@ -33,8 +33,16 @@ void draw_track(void)
         board[HEIGHT - 1][j] = '#';
     }
 
+   for (int y = 1; y < HEIGHT - 1; y++)
+   {
+      if ((y - road_offset + 4) % 4 < 2)
+      {
+        board[y][WIDTH / 3] = '|';
+        board[y][WIDTH * 2 / 3] = '|';
+      }
+    }
+
     board[HEIGHT - 2][car_x] = 'A';
-    
     for (int i = 0; i < HEIGHT; i++)
     {
         for (int j = 0; j < WIDTH; j++)
@@ -48,7 +56,6 @@ void draw_track(void)
 
  void move_car(int key)
     {
-        int key = _getch();
         if((key == 'a' || key == 'A')&&car_x > 1)
         {
             car_x--;
@@ -58,3 +65,8 @@ void draw_track(void)
             car_x++;
         }
     }
+
+void update_road(void)
+{
+    road_offset = (road_offset + 1) % 4;
+}

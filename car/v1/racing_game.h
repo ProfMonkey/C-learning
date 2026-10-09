@@ -10,4 +10,6 @@ void draw_track(void);
 
 void move_car(int key);
 
+void update_road(void);
+
 # endif

@@ -10,8 +10,17 @@ int main(void)
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD top_left = {0, 0};
 
+    int frame = 0;
+
     while (1)
     {
+        frame++;
+
+        if (frame % 4 == 0)  
+        {
+            update_road();
+        }
+
         if (_kbhit())
         {
             int key = _getch();
