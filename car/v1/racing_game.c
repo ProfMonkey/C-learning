@@ -1,8 +1,12 @@
 # include <stdio.h>
 # include "racing_game.h"
 
+static int car_x;
+
 void init_game(void)
 {
+    car_x = WIDTH / 2;
+
     printf("Game initialized!\n");
 }
 
@@ -29,7 +33,7 @@ void draw_track(void)
         board[HEIGHT - 1][j] = '#';
     }
 
-    board[HEIGHT - 2][WIDTH / 2] = 'A';
+    board[HEIGHT - 2][car_x] = 'A';
     
     for (int i = 0; i < HEIGHT; i++)
     {
@@ -39,4 +43,20 @@ void draw_track(void)
         }
         printf("\n");
     }
+
+    void move_car(void)
+    {
+        int key = _getch();
+        if((key == 'a' || key == 'A')&&car_x > 1)
+        {
+            car_x--;
+            board[HEIGHT - 2][car_x] = 'A';
+        }
+        if((key == 'd' || key == 'D')&&car_x < WIDTH - 2)
+        {
+            car_x++;
+            board[HEIGHT - 2][car_x] = 'A';
+        }
+    }
+
 }
