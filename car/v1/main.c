@@ -19,6 +19,11 @@ int main(void)
         if (frame % 4 == 0)  
         {
             update_road();
+            update_obstacles();
+        }
+        if(frame % 20 ==0)
+        {
+            spawn_obstacle();
         }
 
         if (_kbhit())

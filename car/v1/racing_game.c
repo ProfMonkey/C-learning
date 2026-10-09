@@ -1,6 +1,13 @@
 # include <stdio.h>
 # include "racing_game.h"
+#include <stdlib.h>
+#include <time.h>
 
+#define MAX_OBSTACLES 5
+
+static int obstacle_x[MAX_OBSTACLES];
+static int obstacle_y[MAX_OBSTACLES];
+static int obstacle_active[MAX_OBSTACLES];
 static int car_x;
 static int road_offset = 0;
 
@@ -8,6 +15,12 @@ void init_game(void)
 {
     car_x = WIDTH / 2;
     road_offset = 0;
+    srand((unsigned int)time(NULL));
+
+for (int i = 0; i < MAX_OBSTACLES; i++)
+{
+    obstacle_active[i] = 0;
+}
 }
 
 void draw_track(void)
@@ -42,6 +55,19 @@ void draw_track(void)
       }
     }
 
+    for (int i = 0; i < MAX_OBSTACLES; i++)
+{
+    if (obstacle_active[i] == 1)
+    {
+        int x = obstacle_x[i];
+        int y = obstacle_y[i];
+        if (y > 0 && y < HEIGHT - 1 && x > 0 && x < WIDTH - 1)
+        {
+            board[y][x] = 'X';
+        }
+    }
+}
+
     board[HEIGHT - 2][car_x] = 'A';
     for (int i = 0; i < HEIGHT; i++)
     {
@@ -69,4 +95,55 @@ void draw_track(void)
 void update_road(void)
 {
     road_offset = (road_offset + 1) % 4;
+}
+
+void spawn_obstacle(void)
+{
+    int lane_x[3]={WIDTH / 6,WIDTH / 2,WIDTH / 1.2};
+    for (int i = 0; i < MAX_OBSTACLES; i++)
+    {
+        if (obstacle_active[i] == 0)
+        {
+            int lane = rand() % 3;
+
+            obstacle_x[i] = lane_x[lane];
+            obstacle_y[i] = 1;
+            obstacle_active[i] = 1;
+
+            break;
+        }
+    }
+}
+
+void update_obstacles(void)
+{
+    for (int i = 0; i < MAX_OBSTACLES; i++)
+    {
+        if (obstacle_active[i] == 1)
+        {
+            obstacle_y[i]++;
+            if (obstacle_y[i] >= HEIGHT - 1)
+            {
+                obstacle_active[i] = 0;
+            }
+        }
+    }
+}
+
+void collision(void)
+{
+    for (int i = 0; i < MAX_OBSTACLES; i++)
+    {
+        if (obstacle_active[i] == 1)
+        {
+            int x = obstacle_x[i];
+            int y = obstacle_y[i];
+            if (y == HEIGHT - 2 && x == car_x)
+            {
+                obstacle_active[i] = 0;
+            }
+        }
+    }
+    printf("Game Over\n");
+    return 0;
 }
