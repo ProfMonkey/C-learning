@@ -15,8 +15,6 @@ void init_game(void)
 {
     car_x = WIDTH / 2;
     road_offset = 0;
-    srand((unsigned int)time(NULL));
-
 for (int i = 0; i < MAX_OBSTACLES; i++)
 {
     obstacle_active[i] = 0;
@@ -146,20 +144,5 @@ int collision(void)
     }
     return 0;
 }
-int car_score(void)
-{
-    int count = - 3;
-    for (int i = 0; i < MAX_OBSTACLES; i++)
-    {
-        if (obstacle_active[i] == 0)
-        {
-            count++;
-        }
-    }
-    if (count > 0)
-    return count;
 
-    else
-    return 0;
-}
 

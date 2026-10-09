@@ -1,32 +1,27 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <conio.h>
 #include <windows.h>
 #include "racing_game.h"
 
 int main(void)
 {
-    init_game();
-
+    srand((unsigned int)time(NULL));
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD top_left = {0, 0};
+    int quit_game = 0;
 
-    int frame = 0;
-    int game_over = 0;
-    int survival_time = 0;
-
-    while (1)
+    while (!quit_game)
     {
-        frame++;
-        if (frame % 4 == 0)  
-        {
-            update_road();
-            update_obstacles();
-        }
-        if(frame % 20 ==0)
-        {
-            spawn_obstacle();
-        }
+        system("cls");
+        init_game();
+        int frame = 0;
+        int game_over = 0;
+        int score= 0;
 
+        while (!game_over && !quit_game)
+        {
         if (_kbhit())
         {
             int key = _getch();
@@ -38,31 +33,59 @@ int main(void)
 
             move_car(key);
         }
-
-        SetConsoleCursorPosition(console, top_left);
-        draw_track();
          if (collision() == 1)
     {
         game_over = 1;
         break;
     }
-      survival_time++;
-    printf("score=%d", car_score()+survival_time);
+     if (!game_over && frame % 4 == 0)
+                {
+                    score++;
+                }
+            }
 
-        Sleep(60);
-        
-    }
+            // 4. 绘制画面及分数
+            SetConsoleCursorPosition(console, top_left);
+            draw_track();
+            printf("Score: %-8d\n", score);
 
-    if (game_over == 1)
-{
-    printf("\nGame Over!\n");
-}
-else
-{
-    printf("\nGame exited.\n");
-}
+            if (!game_over)
+            {
+                Sleep(60);
+            }
+        }
+
+        if (quit_game)
+        {
+            break;
+        }
+
+        // 5. 本局游戏结束
+        printf("Game Over! Final Score: %d\n", score);
+        printf("Press R to restart, Q to quit.\n");
+
+        // 6. 等待重新开始或者退出
+        while (1)
+        {
+            int key = _getch();
+
+            if (key == 'r' || key == 'R')
+            {
+                break;
+            }
+
+            if (key == 'q' || key == 'Q')
+            {
+                quit_game = 1;
+                break;
+            }
+        }
+    
 
     printf("\nGame exited.\n");
 
     return 0;
+       
 }
+    
+    

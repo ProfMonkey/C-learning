@@ -17,6 +17,6 @@ void update_obstacles(void);
 
 int collision(void);
 
-int carscore(void);
+
 
 # endif
