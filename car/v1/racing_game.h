@@ -16,6 +16,7 @@ void spawn_obstacle(void);
 void update_obstacles(void);
 
 int collision(void);
+int get_score(void);
 
 
 

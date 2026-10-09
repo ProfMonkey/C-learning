@@ -10,9 +10,11 @@ static int obstacle_y[MAX_OBSTACLES];
 static int obstacle_active[MAX_OBSTACLES];
 static int car_x;
 static int road_offset = 0;
+static int passed_cars = 0;
 
 void init_game(void)
 {
+    passed_cars = 0;
     car_x = WIDTH / 2;
     road_offset = 0;
 for (int i = 0; i < MAX_OBSTACLES; i++)
@@ -123,6 +125,7 @@ void update_obstacles(void)
             if (obstacle_y[i] >= HEIGHT - 1)
             {
                 obstacle_active[i] = 0;
+                passed_cars++;
             }
         }
     }
@@ -145,4 +148,7 @@ int collision(void)
     return 0;
 }
 
-
+int get_score(void)
+{
+    return passed_cars;
+}
