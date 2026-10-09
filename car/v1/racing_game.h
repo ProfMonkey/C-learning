@@ -15,6 +15,8 @@ void update_road(void);
 void spawn_obstacle(void);
 void update_obstacles(void);
 
-void collision(void);
+int collision(void);
+
+int carscore(void);
 
 # endif

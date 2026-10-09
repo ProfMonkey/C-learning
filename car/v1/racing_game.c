@@ -130,7 +130,7 @@ void update_obstacles(void)
     }
 }
 
-void collision(void)
+int collision(void)
 {
     for (int i = 0; i < MAX_OBSTACLES; i++)
     {
@@ -140,10 +140,26 @@ void collision(void)
             int y = obstacle_y[i];
             if (y == HEIGHT - 2 && x == car_x)
             {
-                obstacle_active[i] = 0;
+                return 1;
             }
         }
     }
-    printf("Game Over\n");
     return 0;
 }
+int car_score(void)
+{
+    int count = - 3;
+    for (int i = 0; i < MAX_OBSTACLES; i++)
+    {
+        if (obstacle_active[i] == 0)
+        {
+            count++;
+        }
+    }
+    if (count > 0)
+    return count;
+
+    else
+    return 0;
+}
+
