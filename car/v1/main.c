@@ -5,5 +5,7 @@ int main(void)
 {
     init_game();
 
+    draw_track();
+
     return 0;
 }

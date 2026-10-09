@@ -14,9 +14,7 @@ void draw_track(void)
         for (int j = 0; j < WIDTH; j++)
         {
             board[i][j] = ' ';
-            printf("%c", board[i][j]);
         }
-        printf("\n");
     }
 
     for (int i = 0; i < HEIGHT; i++)
@@ -30,6 +28,8 @@ void draw_track(void)
         board[0][j] = '#';
         board[HEIGHT - 1][j] = '#';
     }
+
+    board[HEIGHT - 2][WIDTH / 2] = 'A';
     
     for (int i = 0; i < HEIGHT; i++)
     {
