@@ -1,78 +1,89 @@
+#include <stdio.h>
 #include "racing_game.h"
 
-static Car cars[4];
-static Obstacle obstacles[4];
-
-#define WIDTH 40
-#define HEIGHT 10
-
+static Car cars[PLAYER_COUNT];
+static Obstacle obstacles[OBSTACLE_COUNT];
 static int current_player = 0;
-char board[WIDTH][HEIGHT];
 
-for (int x = 0; x < WIDTH; x++)
+void init_game(void)
 {
-    for (int y = 0; y < HEIGHT; y++)
+    current_player = 0;
+
+    for (int i = 0; i < PLAYER_COUNT; i++)
     {
-        board[x][y] = ' ';
+        cars[i].car_x = WIDTH / 2;
+        cars[i].car_y = HEIGHT - 2;
+        cars[i].car_status = 0;
     }
-}
 
-for (int x = 0; x < WIDTH; x++)
-{
-    for (int y = 0; y < HEIGHT; y++)
+    for (int i = 0; i < OBSTACLE_COUNT; i++)
     {
-        if (x == 0 || x == WIDTH-1 || y == 0 || y == HEIGHT-1)
-        {
-            board[x][y] = '#';
-        }
-    }
-}
-
-void init_game()
-{
-    int car[x].car_x = WIDTH /2;
-    int car[x].car_y = 0;
-    for (int x = 0; x < 4; x++)
-    {
-        car[x].car_status = 0;
-        board[car[x].car_x][car[x].car_y] = ' ';
+        obstacles[i].obstacle_x = 0;
+        obstacles[i].obstacle_y = 0;
+        obstacles[i].obstacle_active = 0;
     }
 }
 
 void move_car(int key)
 {
-    if ((key == 'a' || key == 'A') && car_x > 1)
+    if ((key == 'a' || key == 'A') &&
+        cars[current_player].car_x > 1)
     {
-        car_x--;
+        cars[current_player].car_x--;
     }
-    else if ((key == 'd' || key == 'D') && car_x < WIDTH - 2)
+    else if ((key == 'd' || key == 'D') &&
+             cars[current_player].car_x < WIDTH - 2)
     {
-        car_x++;
+        cars[current_player].car_x++;
     }
 }
 
-int change_player()
+void init_player(void)
 {
-    current_player = (current_player + 1) % 4;
+    cars[current_player].car_x = WIDTH / 2;
+    cars[current_player].car_y = HEIGHT - 2;
+    cars[current_player].car_status = 0;
+}
+
+int change_player(void)
+{
+    current_player = (current_player + 1) % PLAYER_COUNT;
     return current_player;
 }
 
-int init_player()
+void draw_track(void)
 {
-    cars[current_player].car_x = WIDTH / 2;
-    cars[current_player].car_y = 0;
-    board[cars[current_player].car_x][cars[current_player].car_y] = 'A';
-    return board[cars[current_player].car_x][cars[current_player].car_y];
-}
+    char board[HEIGHT][WIDTH];
 
-void draw_track()
-{
-    for (int y = 0; y < HEIGHT ; y++)
+    for (int y = 0; y < HEIGHT; y++)
     {
         for (int x = 0; x < WIDTH; x++)
         {
-            board[y][x]='#';
-            printf("%c", board[x][y]);
+            if (y == 0 || y == HEIGHT - 1 ||
+                x == 0 || x == WIDTH - 1)
+            {
+                board[y][x] = '#';
+            }
+            else
+            {
+                board[y][x] = ' ';
+            }
         }
     }
+
+    board[cars[current_player].car_y]
+         [cars[current_player].car_x] = 'A';
+
+    for (int y = 0; y < HEIGHT; y++)
+    {
+        for (int x = 0; x < WIDTH; x++)
+        {
+            putchar(board[y][x]);
+        }
+
+        putchar('\n');
+    }
+
+    printf("Player %d | A/D: Move | N: Next | Q: Quit    \n",
+           current_player + 1);
 }
