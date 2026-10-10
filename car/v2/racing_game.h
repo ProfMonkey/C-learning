@@ -7,17 +7,22 @@
 
 typedef struct
 {
-    int car_x[1];
-    int car_ststus[1];
-    int id[4];
+    int car_x;
+    int car_y;
+    int car_status;
+    int id;
 } Car;
+
+Car cars[4];
 
 typedef struct
 {
-    int obstacle_x[1];
-    int obstacle_y[1];
-    int obstacle_active[1];
+    int obstacle_x;
+    int obstacle_y;
+    int obstacle_active;
 } Obstacle;
+
+Obstacle obstacles[4];
 
 typedef enum
 {
