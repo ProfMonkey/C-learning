@@ -11,6 +11,8 @@ int main(void)
 
     init_game();
 
+    test_pointer();
+
     while (game_status == GAME_RUNNING)
     {
         if (_kbhit())

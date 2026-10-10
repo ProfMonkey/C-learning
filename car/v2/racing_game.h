@@ -27,6 +27,14 @@ typedef enum
     GAME_EXIT,
 } GameStatus;
 
+typedef struct 
+{
+    Car player;
+    Obstacle *obstacles;
+    int score;
+    int s
+} GameState;
+
 
 typedef struct
 {

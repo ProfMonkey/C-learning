@@ -2,8 +2,16 @@
 #include "racing_game.h"
 
 static Car cars[PLAYER_COUNT];
+static GameState game;
 static int current_player = 0;
 static Obstacle *obstacles;
+
+static void test_pointer(void)
+{
+    Car *p = &cars[0];
+    printf("%p\n", (void*)p);
+    printf("%p\n", (void*)&cars[0]);
+}
 
 static void init_obstacles(void)
 {
@@ -32,6 +40,8 @@ void init_game(void)
      
     init_obstacles();
 }
+
+
 
 static void move_one_car(Car *car, int key)
 {
