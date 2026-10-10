@@ -1,31 +1,38 @@
-#include "racing_game.h"
 #include <stdio.h>
+#include <windows.h>
+#include <conio.h>
+#include "racing_game.h"
 
 int main(void)
 {
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD top_left = {0, 0};
-    int player = change_player();
-
-    if (game_status != GAME_EXIT)
+    game_status = GAME_RUNNING;
+    init_player();
+    while (game_status == GAME_RUNNING)
     {
-
         if (_kbhit())
+        {
+            int key = _getch();
+            if (key == 'q' || key == 'Q')
             {
-                int key = _getch();
-                if (key == 'q' || key == 'Q')
-                {
-                    game_status = GAME_OVER;
-                    return 0;
-                }
+                game_status = GAME_EXIT;
+                break;
+            }
+
+            if (key == 'n'||key == 'N')
+            {
+                change_player();
+                init_player();
+            }
+            else
+            {
                 move_car(key);
             }
-        if (game_status != GAME_OVER&& game_status != GAME_EXIT)
-        { init_player()++;
-        system("cls");
-        SetConsoleCursorPosition(console, top_left);
-        draw_track();
         }
+         SetConsoleCursorPosition(console, top_left);
+    draw_track();
+
+    Sleep(10);
     }
-    return 0;
 }
