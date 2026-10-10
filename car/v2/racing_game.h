@@ -7,15 +7,15 @@
 
 typedef struct
 {
-    int car_x[WIDTH];
-    int car_ststus[1];-
+    int car_x[1];
+    int car_ststus[1];
     int id[4];
 } Car;
 
 typedef struct
 {
-    int obstacle_x[WIDTH];
-    int obstacle_y[HEIGHT];
+    int obstacle_x[1];
+    int obstacle_y[1];
     int obstacle_active[1];
 } Obstacle;
 
@@ -23,7 +23,7 @@ typedef enum
 {
     GAME_RUNNING,
     GAME_OVER,
-    GAME_PAUSED
+    GAME_EXIT,
 } GameStatus;
   
 
