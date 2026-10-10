@@ -7,7 +7,7 @@ static Obstacle obstacles[4];
 #define HEIGHT 10
 
 static int current_player = 0;
-board[WIDTH][HEIGHT];
+char board[WIDTH][HEIGHT];
 
 for (int x = 0; x < WIDTH; x++)
 {
@@ -59,8 +59,8 @@ int change_player()
 
 int init_player()
 {
-    car[current_player].car_x = WIDTH / 2;
-    car[current_player].car_y = 0;
+    cars[current_player].car_x = WIDTH / 2;
+    cars[current_player].car_y = 0;
     board[cars[current_player].car_x][cars[current_player].car_y] = 'A';
     return board[cars[current_player].car_x][cars[current_player].car_y];
 }
