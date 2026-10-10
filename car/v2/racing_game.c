@@ -33,12 +33,12 @@ void init_game(void)
         cars[i].car_status = 0;
     }
 
+    init_obstacles();
+
     for (int i = 0; i < OBSTACLE_COUNT; i++)
     {obstacles[i].obstacle_x = 0;
      obstacles[i].obstacle_y = 0;
      obstacles[i].obstacle_active = 0;}
-     
-    init_obstacles();
 }
 
 
