@@ -1,17 +1,11 @@
-#ifndef RACING_GAME_H
-#define RACING_GAME_H
-
-#define WIDTH 30
-#define HEIGHT 10
-
-
 typedef struct
 {
     int car_x;
     int car_y;
     int car_status;
-    int id;
 } Car;
+
+Car car[4];
 
 typedef struct
 {
@@ -20,21 +14,20 @@ typedef struct
     int obstacle_active;
 } Obstacle;
 
+Obstacle obstacle[8];
+
 typedef enum
 {
     GAME_RUNNING,
     GAME_OVER,
     GAME_EXIT,
-} GameStatus;
-  
+} Gamestatus;
+
+Gamestatus game_status;
+
 
 void init_game(void);
-void draw_track(void);
 void move_car(int key);
-void update_road(void);
-void spawn_obstacle(void);
-void update_obstacles(void);
-int collision(void);
-int get_score(void);
-
-#endif
+void draw_track(void);
+int change_player(void);
+int init_player(void);
