@@ -46,6 +46,6 @@ int main(void)
         draw_track(&car);
         Sleep(60);
     }
-    free(obstacles);
+    free_game();
     return 0;
 }

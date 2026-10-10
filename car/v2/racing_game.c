@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "racing_game.h"
+#include <stdlib.h>
 
 void init_game(Car *car)
 {
@@ -50,4 +51,9 @@ void draw_track(Car *car)
     }
 
     printf("A/D: Move | Q: Quit       \n");
+}
+
+void free_game(void)
+{
+    free(obstacles);
 }

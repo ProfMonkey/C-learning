@@ -28,5 +28,6 @@ typedef enum
 void init_game(Car *car);
 void move_car(Car *car, int key);
 void draw_track(Car *car);
+void free_game(void);
 
 #endif
