@@ -2,22 +2,35 @@
 #include "racing_game.h"
 
 static Car cars[PLAYER_COUNT];
-static Obstacle obstacles[OBSTACLE_COUNT];
 static int current_player = 0;
+static Obstacle *obstacles;
+
+static void init_obstacles(void)
+{
+    obstacles = malloc(sizeof(Obstacle) * OBSTACLE_COUNT);
+    if(obstacles == NULL)
+{
+    printf("memory error");
+}
+}
 
 void init_game(void)
 {  
     current_player = 0;
 
     for (int i = 0; i < PLAYER_COUNT; i++)
-    {cars[i].car_x = WIDTH / 2;
-     cars[i].car_y = HEIGHT - 2;
-     cars[i].car_status = 0;}
+    {
+        cars[i].car_x = WIDTH / 2;
+        cars[i].car_y = HEIGHT - 2;
+        cars[i].car_status = 0;
+    }
 
     for (int i = 0; i < OBSTACLE_COUNT; i++)
     {obstacles[i].obstacle_x = 0;
      obstacles[i].obstacle_y = 0;
      obstacles[i].obstacle_active = 0;}
+     
+    init_obstacles();
 }
 
 static void move_one_car(Car *car, int key)
