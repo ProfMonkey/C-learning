@@ -9,15 +9,16 @@ int main(void)
     Obstacle *temp;
     Car car;
     GameStatus status = GAME_RUNNING;
+    int obstacle_count = 4;
 
-    obstacles = malloc(4* sizeof(Obstacle));
+    obstacles = malloc(obstacle_count * sizeof(Obstacle));
     if (obstacles == NULL)
     {
         fprintf(stderr, "Failed to allocate memory for obstacles.\n");
         return 1;
     }
-
-    temp = realloc(obstacles, 8 * sizeof(Obstacle));
+    obstacle_count = 8;
+    temp = realloc(obstacles, obstacle_count * sizeof(Obstacle));
     if (temp != NULL)
     {
         obstacles = temp;
@@ -29,7 +30,7 @@ int main(void)
         return 1;
     }
 
-    for (int i = 0; i < OBSTACLE_COUNT; i++)
+    for (int i = 0; i < obstacle_count; i++)
     {
         obstacles[i].obstacle_x = 0;
         obstacles[i].obstacle_y = 0;
