@@ -6,6 +6,7 @@
 int main(void)
 {
     Obstacle *obstacles = NULL;
+    Obstacle *temp;
     Car car;
     GameStatus status = GAME_RUNNING;
 
@@ -15,6 +16,19 @@ int main(void)
         fprintf(stderr, "Failed to allocate memory for obstacles.\n");
         return 1;
     }
+
+    temp = realloc(obstacles, 8 * sizeof(Obstacle));
+    if (temp != NULL)
+    {
+        obstacles = temp;
+    }
+    else 
+    {
+        fprintf(stderr, "Failed to reallocate memory for obstacles.\n");
+        free(obstacles);
+        return 1;
+    }
+
     for (int i = 0; i < OBSTACLE_COUNT; i++)
     {
         obstacles[i].obstacle_x = 0;
@@ -46,6 +60,6 @@ int main(void)
         draw_track(&car);
         Sleep(60);
     }
-    free_game();
+    free(obstacles);
     return 0;
 }

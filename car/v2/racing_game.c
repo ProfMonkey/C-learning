@@ -53,7 +53,3 @@ void draw_track(Car *car)
     printf("A/D: Move | Q: Quit       \n");
 }
 
-void free_game(void)
-{
-    free(obstacles);
-}
