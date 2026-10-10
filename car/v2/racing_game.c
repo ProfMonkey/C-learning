@@ -3,12 +3,12 @@
 #include "racing_game.h"
 
 #define MAX_OBSTACLES 5
+#define MAX_PLAYERS 4
 #define OBSTACLE_HALF_WIDTH 1  // The obstacle car is 3 characters wide: XXX
 
-static int obstacle_x[MAX_OBSTACLES];
-static int obstacle_y[MAX_OBSTACLES];
-static int obstacle_active[MAX_OBSTACLES];
-static int car_x;
+static Car cars[MAX_PLAYERS];
+static Obstacle obstacles[MAX_OBSTACLES];
+static int current_player = 0
 static int road_offset;
 static int passed_cars;
 

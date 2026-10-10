@@ -11,10 +11,10 @@ int main(void)
 
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD top_left = {0, 0};
-    int quit_game = 0;
+    GameStatus game_status = GAME_RUNNING;
 
     // Outer loop: start a fresh round after R is pressed.
-    while (!quit_game)
+    while (game_status != GAME_EXIT)
     {
         system("cls");
         init_game();
@@ -23,7 +23,7 @@ int main(void)
         int game_over = 0;
         int move_interval = 4;
 
-        while (!game_over && !quit_game)
+        while (game_status != GAME_OVER && game_status != GAME_EXIT)
         {
             // 1. Read input without blocking the game loop.
             if (_kbhit())
@@ -31,7 +31,7 @@ int main(void)
                 int key = _getch();
                 if (key == 'q' || key == 'Q')
                 {
-                    quit_game = 1;
+                    game_status = GAME_EXIT;
                     break;
                 }
                 move_car(key);
@@ -95,7 +95,7 @@ int main(void)
             }
         }
 
-        if (quit_game)
+        if (game_status == GAME_EXIT)
         {
             break;
         }
@@ -112,7 +112,7 @@ int main(void)
             }
             if (key == 'q' || key == 'Q')
             {
-                quit_game = 1;
+                game_status = GAME_EXIT;
                 break;
             }
         }

@@ -13,16 +13,12 @@ typedef struct
     int id;
 } Car;
 
-Car cars[4];
-
 typedef struct
 {
     int obstacle_x;
     int obstacle_y;
     int obstacle_active;
 } Obstacle;
-
-Obstacle obstacles[4];
 
 typedef enum
 {
